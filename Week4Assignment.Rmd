@@ -1,11 +1,16 @@
 ---
-title: "Data Products Week 4 Assignment"
+title: "Data Products Week4 Assignment"
 author: "Raja"
 date: "28 January 2018"
-output: slidy_presentation
+output:
+  slidy_presentation: default
+  ioslides_presentation: default
 runtime: shiny
 ---
 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
 ## Indian 2009 2014 Elections Voting % Shiny Project
 
 - The project represents 2009 2014 Lok Sabha election 
@@ -47,7 +52,7 @@ shinyApp(
 ui= fluidPage(
   titlePanel("2009/2014 India Lok Sabha Elections Voting % Comparison"),
   sidebarLayout(
-    sidebarPanel(style="overflow-y:scroll;max-height:600px;position:relative;",radioButtons("capital","State/UT and Capital",c(content))),
+    sidebarPanel(style="overflow-y:scroll;max-height:600px;position:relative;",radioButtons("capital","Click on State/UT and Capital to get Voting%",c(content))),
     mainPanel(leafletOutput("Map1"))
 )),
 
@@ -80,4 +85,3 @@ server= function(input, output) {
 options= list(height=500)
 )
 ```
-
