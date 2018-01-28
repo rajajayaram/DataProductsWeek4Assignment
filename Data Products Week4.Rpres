@@ -1,0 +1,30 @@
+Data Products Week4
+========================================================
+author: Raja
+date: 01/28/2018
+autosize: true
+
+Indian 2009 2014 Elections Voting % Shiny Project
+========================================================
+
+- The project represents 2009 2014 Lok Sabha election 
+- Data for State wise election poll % is got from www.data.gov.in
+- Data for Lat Long of the Indian state capitals are got from www.mapmyindia.com
+- The data is represented in a shiny application and interactive India map
+
+How the application works
+========================================================
+
+- There is a sidebarlayout with a sidebarpanel and mainpanel
+- The sidebarpanel has a list of Indian/State Union Territory Capitals as Radiobuttons
+- The data for the radio button for the State/UT & capitals are loaded from the downloaded csv file
+- On selection of the particular State UT in the radio button the appropriate state/UT voting % is populated as a comparitive histogram against the lat/long location of the State/UT in the Indian Map
+
+Slide With Plot
+========================================================
+
+```{r, echo=FALSE}
+library(shiny)
+runApp()
+
+```
