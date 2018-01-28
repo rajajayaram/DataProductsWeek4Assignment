@@ -30,55 +30,24 @@ How the application works
 - setView is used to give the focus on the particular State/UT capital and show the comparitive histogram in 2 different colors
 - URL to the application: https://rajajayaram.shinyapps.io/DPWeek4Assignment/
 
-Shiny Presentation
+Polling Data Comparison 2009 2014
 ========================================================
 
 ```{r,echo=FALSE}
-library(shiny)
-library(leaflet)
-library(leaflet.minicharts)
-library(htmltools)
-
-
 df=read.csv2("Statewise polling Datacsv.csv",header=TRUE,sep=",")
+
 content<-paste(df[1]$State.UT,df[2]$Capital)
 newframe<-data.frame(lat=as.numeric(levels(df$Lat))[df$Lat],lng=as.numeric(levels(df$Long))[df$Long])
 chartframe<-data.frame(as.numeric(levels(df$Percentage.of.votes.polled.2009))[df$Percentage.of.votes.polled.2009],as.numeric(levels(df$Percentage.of.votes.polled.2014))[df$Percentage.of.votes.polled.2014])
 colnames(chartframe)<-c("2009 Voting %","2014 Voting %")
-shinyApp(
-ui= fluidPage(
-  titlePanel("2009/2014 India Lok Sabha Elections Voting % Comparison"),
-  sidebarLayout(
-    sidebarPanel(style="overflow-y:scroll;max-height:600px;position:relative;",radioButtons("capital","Click on State/UT and Capital to get Voting%",c(content))),
-    mainPanel(leafletOutput("Map1"))
-)),
+Polldata<-data.frame(df$State.UT,df$Percentage.of.votes.polled.2009,df$Percentage.of.votes.polled.2014)
+combiframe<-paste(Polldata$df.State.UT,Polldata$df.Percentage.of.votes.polled.2009)
+combiframe<-paste(combiframe,Polldata$df.Percentage.of.votes.polled.2014)
 
-## Server Logic
-server= function(input, output) {
-  output$Map1 <- renderLeaflet({
-  dist<- switch(input$capital,input$capital)
-  df=read.csv2("Statewise polling Datacsv.csv",header=TRUE,sep=",")
-    content<-paste(df[1]$State.UT,df[2]$Capital)
-   newframe<-data.frame(lat=as.numeric(levels(df$Lat))[df$Lat],lng=as.numeric(levels(df$Long))[df$Long])
-   chartframe<-data.frame(as.numeric(levels(df$Percentage.of.votes.polled.2009))[df$Percentage.of.votes.polled.2009],as.numeric(levels(df$Percentage.of.votes.polled.2014))[df$Percentage.of.votes.polled.2014])
-    colnames(chartframe)<-c("2009 Voting %","2014 Voting %")
-    combiframe<-data.frame(newframe,chartframe,content)
-    for (i in 1:length(content))
+print("State 2009% 2014%")
+print("===============")
+for (i in 1:length(content))
     {
-      if(content[i]==input$capital)
-      {
-        #print(i)
-        break
-      }
+      print(combiframe[i])
     }
-    newframe%>%leaflet()%>%addTiles()%>%addCircles(~lng,~lat,popup=content[i],weight = 3, radius=40, 
-                                                   color="red", stroke = TRUE, fillOpacity = 0.8) %>% 
-      setView(lng=combiframe$lng[i],lat=combiframe$lat[i],zoom=7) %>%
-      addCircleMarkers(combiframe$lng[i], combiframe$lat[i], label = ~htmlEscape(content[i]),labelOptions=labelOptions(textOnly=TRUE,direction="bottom")) %>% 
-      addMinicharts(combiframe$lng[i],combiframe$lat[i], type="bar", chartdata = chartframe,showLabels=TRUE,legend=TRUE,width = 30, height = 40)
-    
-    })
-  },
-options= list(height=500)
-)
 ```
